@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:scho0l_stuff/screens/results.dart';
+import 'screens/results.dart';
 import 'screens/profile.dart';
 import 'screens/inbox.dart';
-import 'screens/announcement.dart'; // Import the AnnouncementPage
+import 'screens/announcement.dart';
+import 'screens/splashscreen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -15,7 +16,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return const MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: HomePage(),
+      home: SplashScreen(), // Start with the SplashScreen
     );
   }
 }
@@ -24,12 +25,12 @@ class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
   @override
-  // ignore: library_private_types_in_public_api
   _HomePageState createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  final String userName = 'John Doe'; // Example user name
 
   @override
   Widget build(BuildContext context) {
@@ -38,23 +39,34 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         backgroundColor: Colors.redAccent,
         elevation: 8.0,
-        title: const Center(
-          child: Text(
-            'Welcome',
-            style: TextStyle(
-              fontSize: 22,
-              fontWeight: FontWeight.bold,
-              letterSpacing: 1.5,
-              color: Colors.white,
-            ),
-          ),
-        ),
         leading: IconButton(
           icon: const Icon(Icons.menu, color: Colors.white),
           onPressed: () {
             _scaffoldKey.currentState?.openDrawer();
           },
         ),
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              'Welcome, $userName',
+              style: const TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
+              ),
+            ),
+          ],
+        ),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.notifications, color: Colors.white),
+            onPressed: () {
+              // Notification button functionality
+            },
+          ),
+        ],
+        centerTitle: true,
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(
             bottom: Radius.circular(16),
@@ -122,7 +134,7 @@ class _HomePageState extends State<HomePage> {
               );
             },
           ),
-           _buildDrawerItem(
+          _buildDrawerItem(
             icon: Icons.logout,
             text: 'Logout',
             onTap: () {},
@@ -167,12 +179,11 @@ class _HomePageState extends State<HomePage> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          // Announcement image (takes 40% of the card height)
           Container(
             height: 150.0,
             decoration: const BoxDecoration(
               image: DecorationImage(
-                image: AssetImage('assets/back.jpg'), // Use the asset image
+                image: AssetImage('assets/back.jpg'),
                 fit: BoxFit.cover,
               ),
             ),
@@ -193,20 +204,19 @@ class _HomePageState extends State<HomePage> {
                       ),
                     ),
                     Text(
-                      '2h ago', // Example time
+                      '2h ago',
                       style: TextStyle(color: Colors.grey),
                     ),
                   ],
                 ),
                 const SizedBox(height: 8.0),
                 const Text(
-                  'This is a brief description of the announcement... ',
+                  'This is a brief description of the announcement...',
                   style: TextStyle(fontSize: 16.0),
                 ),
                 const SizedBox(height: 8.0),
                 TextButton(
                   onPressed: () {
-                    // Navigate to the AnnouncementPage
                     Navigator.push(
                       context,
                       MaterialPageRoute(
